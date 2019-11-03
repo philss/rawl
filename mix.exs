@@ -20,7 +20,8 @@ defmodule Rawl.MixProject do
   defp deps do
     [
       {:norm, "~> 0.7.1"},
-      {:nimble_csv, "~> 0.6.0"}
+      {:nimble_csv, "~> 0.6.0"},
+      {:stream_data, "~> 0.4", only: [:dev, :test]}
     ]
   end
 end
