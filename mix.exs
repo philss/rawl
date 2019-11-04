@@ -6,7 +6,12 @@ defmodule Rawl.MixProject do
       app: :rawl,
       version: "0.1.0",
       elixir: "~> 1.9",
+      name: "Rawl",
+      source_url: "https://github.com/philss/rawl",
       start_permanent: Mix.env() == :prod,
+      docs: [
+        extras: ["README.md"]
+      ],
       deps: deps()
     ]
   end
@@ -21,6 +26,7 @@ defmodule Rawl.MixProject do
     [
       {:norm, "~> 0.7.1"},
       {:nimble_csv, "~> 0.6.0"},
+      {:ex_doc, "~> 0.21", only: :dev, runtime: false},
       {:stream_data, "~> 0.4", only: [:dev, :test]}
     ]
   end
