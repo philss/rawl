@@ -6,10 +6,11 @@ defmodule Repo do
   end
 
   def config do
-    [priv: "tmp/#{inspect(Ecto.Gen.Migration)}", otp_app: :ecto_sql]
+    [priv: "tmp/#{inspect(Ecto.Gen.Migration)}", otp_app: :rawl]
   end
 end
 
-config :rawl, ecto_repos: [
-  Repo
-]
+config :rawl,
+  ecto_repos: [
+    Repo
+  ]
