@@ -6,7 +6,7 @@ defmodule Mix.Tasks.Rawl.Gen.Migration do
 
   @switches [
     schema: :string,
-    parser: :string,
+    separator: :string,
     lines: :integer
   ]
 
@@ -48,15 +48,9 @@ defmodule Mix.Tasks.Rawl.Gen.Migration do
 
   defp inferation_opts(opts) do
     i_opts = Keyword.take(opts, [:lines])
-    parser = Keyword.get(opts, :parser)
-    parser_module = String.to_atom("Elixir.#{parser}")
+    NimbleCSV.define(RawlCSVParser, separator: Keyword.get(opts, :separator, ","), escape: "\"")
 
-    if parser && Code.ensure_loaded?(parser_module) do
-      Mix.shell().info("With parser #{parser}")
-      Keyword.put(i_opts, :parser, parser_module)
-    else
-      i_opts
-    end
+    Keyword.put(i_opts, :parser, RawlCSVParser)
   end
 
   defp column_defaults(%Rawl.Column{allow_nil?: false}), do: ", null: false"
