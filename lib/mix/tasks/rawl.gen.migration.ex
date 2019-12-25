@@ -7,6 +7,7 @@ defmodule Mix.Tasks.Rawl.Gen.Migration do
   @switches [
     schema: :string,
     separator: :string,
+    newline: [:string, :keep],
     lines: :integer
   ]
 
@@ -26,7 +27,11 @@ defmodule Mix.Tasks.Rawl.Gen.Migration do
            OptionParser.parse!(args, strict: @switches ++ @ecto_switches, aliases: @aliases),
          true <- File.exists?(file_path) do
       Mix.shell().info("Creating a migration for file #{file_path}")
-      schema = Keyword.fetch!(opts, :schema)
+
+      schema =
+        opts
+        |> Keyword.fetch!(:schema)
+        |> Macro.underscore()
 
       changes =
         changes_template(
@@ -47,10 +52,15 @@ defmodule Mix.Tasks.Rawl.Gen.Migration do
   end
 
   defp inferation_opts(opts) do
-    i_opts = Keyword.take(opts, [:lines])
-    NimbleCSV.define(RawlCSVParser, separator: Keyword.get(opts, :separator, ","), escape: "\"")
+    escape = Keyword.get(opts, :escape, "\"")
+    separator = Keyword.get(opts, :separator, ",")
+    IO.inspect(opts)
 
-    Keyword.put(i_opts, :parser, RawlCSVParser)
+    NimbleCSV.define(RawlCSVParser, separator: separator, escape: escape)
+
+    opts
+    |> Keyword.take([:lines])
+    |> Keyword.put(:parser, RawlCSVParser)
   end
 
   defp column_defaults(%Rawl.Column{allow_nil?: false}), do: ", null: false"
