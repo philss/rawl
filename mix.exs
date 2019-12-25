@@ -26,6 +26,7 @@ defmodule Rawl.MixProject do
     [
       {:norm, "~> 0.7.1"},
       {:nimble_csv, "~> 0.6.0"},
+      {:ecto_sql, "~> 3.2"},
       {:ex_doc, "~> 0.21", only: :dev, runtime: false},
       {:stream_data, "~> 0.4", only: [:dev, :test]}
     ]
